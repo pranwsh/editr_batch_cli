@@ -1,0 +1,7 @@
+results/
+Rplots.pdf
+*.tar.gz
+*.Rproj
+.Rhistory
+.RData
+.Ruserdata

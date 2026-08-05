@@ -1,0 +1,30 @@
+Package: editR
+Title: Edit Deconvolution by Inference of Traces in R
+Version: 1.0.10
+Description: Predicts base editing from Sanger sequencing data by
+    quantifying fluorescence traces. Fits zero-adjusted gamma distributions
+    to background noise and assigns p-values for each base call in a guide
+    RNA region.
+Author: Mitchell Kluesner, Branden Moriarity
+Maintainer: Mitchell Kluesner <mkluesne@fredhutch.org>
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports:
+    Biostrings,
+    pwalign,
+    sangerseqR,
+    gamlss,
+    gamlss.dist,
+    magrittr,
+    dplyr,
+    tidyr,
+    ggplot2,
+    cowplot,
+    gridExtra,
+    rmarkdown,
+    plotly,
+    yaml
+Suggests:
+    testthat
+RoxygenNote: 7.3.0
