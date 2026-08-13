@@ -16,7 +16,7 @@ nix build .#default  # build the editR R package
 Run the CLI:
 
 ```bash
-nix run .# -- --ab1 sample.ab1 --guide CACTGGAATGACACACGCCC --out results
+nix run .# -- --ab1 sample.ab1 --guide GAGAGAGGGGAGAGAGAGAGACC --out results
 ```
 
 ### Without Nix
