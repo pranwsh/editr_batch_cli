@@ -2,36 +2,38 @@
 
 Predicts where base editing occurred from a single Sanger sequencing run. You provide a guide RNA protospacer sequence (~20 bp) and a `.ab1` Sanger file of the edited region (~300–700 bp). EditR fits zero-adjusted gamma distributions to the background noise of your sample and assigns a *P*-value to each background peak in the guide region — the probability that it is a product of base editing as opposed to noise.
 
-## Dependencies
+## Quick start
 
-### R packages
+### Nix (recommended)
 
-Required at runtime (`Imports` in `DESCRIPTION`):
-
-- Biostrings, pwalign, sangerseqR
-- gamlss, gamlss.dist
-- magrittr, dplyr, tidyr
-- ggplot2, cowplot, gridExtra
-- rmarkdown (HTML reports), plotly, yaml
-
-Used for tests: testthat. Used by the CLI: pandoc (via `rmarkdown`/HTML reports).
-
-### Via Nix (recommended)
-
-A Nix flake (`flake.nix` + `flake.lock`) installs R, all R packages, and `pandoc` in project scope, pinned to a reproducible nixpkgs revision.
+A flake pins R, all R packages, and `pandoc` to a reproducible nixpkgs revision.
 
 ```bash
 nix develop          # shell with R + editR + all deps
-nix build .#default  # build the editR R package artifact
+nix build .#default  # build the editR R package
 ```
 
-### Manual install
+Run the CLI:
+
+```bash
+nix run .# -- --ab1 sample.ab1 --guide CACTGGAATGACACACGCCC --out results
+```
+
+### Without Nix
+
+Requires R (>= 4.0), `pandoc` (for HTML reports), and the `BiocManager` package.
 
 ```r
-install.packages(c("gamlss", "magrittr", "dplyr", "tidyr", "ggplot2",
-                   "cowplot", "gridExtra", "rmarkdown", "plotly", "yaml"))
+install.packages(c("BiocManager", "gamlss", "magrittr", "dplyr", "tidyr",
+                   "ggplot2", "cowplot", "gridExtra", "rmarkdown", "plotly", "yaml"))
 BiocManager::install(c("Biostrings", "pwalign", "sangerseqR"))
-install.packages("path/to/editr", repos = NULL, type = "source")
+```
+
+Then install the package and run the CLI from this repo:
+
+```bash
+R CMD INSTALL .
+Rscript cli.R --ab1 sample.ab1 --guide CACTGGAATGACACACGCCC --out results
 ```
 
 ## Usage
@@ -41,12 +43,11 @@ install.packages("path/to/editr", repos = NULL, type = "source")
 ```bash
 # Example analysis
 nix run .# -- --example --out results
-
-# Analyze your own sample
-nix run .# -- --ab1 sample.ab1 --guide CACTGGAATGACACACGCCC --out results
+Rscript cli.R --example --out results   # without Nix
 
 # Batch: analyze every .ab1 in a directory
 nix run .# -- --folder data/ --guide CACTGGAATGACACACGCCC --out results
+Rscript cli.R --folder data/ --guide CACTGGAATGACACACGCCC --out results
 
 # Optional parameters
 nix run .# -- --ab1 sample.ab1 --guide CACTGGAATGACACACGCCC \
